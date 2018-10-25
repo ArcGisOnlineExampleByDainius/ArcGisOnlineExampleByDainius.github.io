@@ -4,13 +4,113 @@
       <meta charset="utf-8">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
       <title>GIS-VU</title>
-      <script src='https://api.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.js'></script>
-      <link href='https://api.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.css' rel='stylesheet' />
+      
+      <link rel="stylesheet" href="https://js.arcgis.com/4.9/esri/css/main.css">
+       <script src="https://js.arcgis.com/4.9/"></script>
+
+       <style>
+       
+           .esri-ui-top-left{
+               display: none;
+           }
+       </style>
+       
+    <script>
+        require([
+            "esri/Map",
+            "esri/layers/FeatureLayer",
+            "esri/layers/TileLayer",
+            "esri/views/MapView",
+            "dojo/domReady!"
+        ], function(Map, FeatureLayer, TileLayer, MapView) {
+
+            var map = new Map({
+                basemap: "gray",
+                slider: false
+            });
+
+            // Construct feature layer from service URL
+            var parkLayer = new TileLayer({
+                url: "https://services9.arcgis.com/Ft7DENNtF3ueB5vS/arcgis/rest/services/verkiuParkas2/MapServer" // REQUIRED: Paste your feature service URL here
+            });
+            
+            
+            var fwySym = {
+              type: "simple-line",  // autocasts as new SimpleLineSymbol()
+              color: "#FFAA00",
+              width: 5,
+              style: "solid"
+            };
+
+            // Symbol for U.S. Highways
+            var hwySym = {
+              type: "simple-line",  // autocasts as new SimpleLineSymbol()
+              color: "#DF73FF",
+              width: 7,
+              style: "solid"
+            };
+
+            // Symbol for other major highways
+            var otherSym = {
+              type: "simple-line",  // autocasts as new SimpleLineSymbol()
+              color: "#EBEBEB",
+              width: 1,
+              style: "short-dot"
+            };
+            
+            var hwyRenderer = {
+              type: "unique-value",  // autocasts as new UniqueValueRenderer()
+              field: "fclass",
+              defaultSymbol: otherSym,  // used to visualize all features not matching specified types
+              defaultLabel: "Other major roads",  //  used in the legend for all other types not specified
+                uniqueValueInfos: [{
+                value: "primary", // code for interstates/freeways
+                symbol: fwySym,
+                label: "Interstate"  // used in the legend to describe features with this symbol
+              }, {
+                value: "footway", // code for U.S. highways
+                symbol: hwySym,
+                label: "US Highway"  // used in the legend to describe features with this symbol
+              }]
+            };
+            
+            var roadsLayer = new FeatureLayer({
+                url: "https://services9.arcgis.com/Ft7DENNtF3ueB5vS/arcgis/rest/services/keliai_LT/FeatureServer", // REQUIRED: Paste your feature service URL here
+                renderer : hwyRenderer
+            }); 
+            
+            var waterLayer = new TileLayer({
+                url: "https://services9.arcgis.com/Ft7DENNtF3ueB5vS/arcgis/rest/services/vandenys/MapServer" // REQUIRED: Paste your feature service URL here
+            });  
+            
+            var forrestLayer = new TileLayer({
+                url: "https://services9.arcgis.com/Ft7DENNtF3ueB5vS/arcgis/rest/services/miskai/MapServer" // REQUIRED: Paste your feature service URL here
+            });
+
+
+            map.add(parkLayer);
+            map.add(roadsLayer);
+            map.add(waterLayer);
+            map.add(forrestLayer);
+
+            var mapView = new MapView({
+                container: "map",
+                map: map,
+                center: [25.2797, 54.6872],
+                zoom: 13
+            });
+
+
+        });
+    </script>
+       
+       
       <link href="site.css" rel="stylesheet"/>       
    </head>
     
    <body>
       <div id='map'></div>
+
 
       <div class='infoBox'>
           <div class="settingsBtn" onclick="invertSettings()">Nustatymai</div>
@@ -91,6 +191,7 @@
   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
   crossorigin="anonymous"></script>
       <script src="site.js"></script>
+
    </body>
     
 </html>
