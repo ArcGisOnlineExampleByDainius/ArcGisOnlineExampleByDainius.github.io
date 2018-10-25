@@ -1,0 +1,280 @@
+body { margin:0; padding:0; }
+#map { position:absolute; top:0; bottom:0; width:100%;}
+  
+#map canvas {
+        cursor: default;
+}
+
+.path{
+     height: 3px;
+}
+
+.walkingPath{
+     height: 5px;
+}
+
+
+
+.optionValue{
+    width: 100px;
+    font-size: 20px;
+    text-align: right;
+}
+
+.option{
+    display: inline-block;
+    padding: 10px;
+     font-size: 20px;;
+}
+
+.routeTypeName{
+    display: inline-block;
+}
+
+.routeTypeIcon{
+    display: inline-block;
+    background: black;
+    width: 70px;
+}
+
+.route{
+    height: 7px;
+    background: white;
+}
+
+.seriousRoute{
+    height: 7px;
+    background: pink;
+}
+
+#settings{
+    position: absolute;
+/*    width: 500px;*/
+    background: #C0C0C0;
+    opacity: 0.95;
+    margin: 10px;
+    display: none;
+    padding: 10px;
+}
+
+#downloadBox{
+    position: absolute;
+    background: #C0C0C0;
+    opacity: 0.95;
+    margin: 10px;
+    display: none;
+    padding: 10px;
+    height: 500px;
+}
+
+.close{
+    text-align: right;
+    padding: 10px;
+    font-size: 30px;
+    background: white;
+    cursor: pointer;
+    width: 20px;
+}
+
+.settingsBtn{
+    background: #C0C0C0;
+    padding: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.downloadBtn{
+    background: #C0C0C0;
+    padding: 5px;
+    font-size: 12px;
+    cursor: pointer;
+    text-align: center;
+    margin-top: 10px; 
+    display: none;
+}
+
+.infoBox {
+
+    width: 150px;
+    position: absolute;
+    top: 20px;
+    left: 10px;
+    background-color: rgba(255, 255, 255, .9);
+    padding: 15px;
+    text-align: left;
+    font-family: 'Arial';
+    margin: 0;
+    font-size: 13px;
+  }
+
+.startMarker{
+  margin-top: -15px;  
+  margin-left: 15px;   
+  width: 30px;
+  height: 30px;
+  border-radius: 50% 50% 50% 0;
+  background: #A7F432;
+}
+
+.startMarker:after  {
+  content: "";
+  width: 14px;
+  height: 14px;
+  margin: 8px 0 0 8px;
+  background: white;
+  position: absolute;
+  border-radius: 50%;
+}
+
+.endMarker{
+  margin-top: -15px;  
+  margin-left: 15px; 
+  width: 30px;
+  height: 30px;
+  border-radius: 50% 50% 50% 0;
+  background: #FFBF00;
+}
+
+.endMarker:after  {
+  content: "";
+  width: 14px;
+  height: 14px;
+  margin: 8px 0 0 8px;
+  background: white;
+  position: absolute;
+  border-radius: 50%;
+}
+
+
+.pointMarker{
+  margin-top: -15px;  
+  margin-left: 15px; 
+  width: 30px;
+  height: 30px;
+  border-radius: 50% 50% 50% 0;
+  background: #5D76CB;
+}
+
+.pointMarker:after  {
+  content: "";
+  width: 14px;
+  height: 14px;
+  margin: 8px 0 0 8px;
+  background: white;
+  position: absolute;
+  border-radius: 50%;
+}
+
+.tempMarker{
+  margin-top: -15px;  
+  margin-left: 15px;  
+  width: 30px;
+  height: 30px;
+  border-radius: 50% 50% 50% 0;
+  background: #5D76CB;
+/*  margin: 10px;*/
+}
+
+.tempMarker:after  {
+  content: "";
+  width: 14px;
+  height: 14px;
+  margin: 8px 0 0 8px;
+  background: white;
+  position: absolute;
+  border-radius: 50%;
+}
+
+.searchBtn{
+    width: 100%;
+    height: 30px;
+}
+
+.startBtn{
+    font-size: 16px;
+    background: #A7F432;
+}
+
+.pointBtn{
+    font-size: 16px;
+    background: #5D76CB;
+}
+
+.endBtn{
+    font-size: 16px;
+    background: #FFBF00;
+}
+
+.contextMenu {
+    margin-top:  45px;  
+    margin-left: 75px;  
+    height: 90px;
+    width: 150px;
+    position: absolute;
+    background-color: rgba(255, 255, 255, 1);
+  }
+
+.contextMenu input {
+    width: 100%;
+        height: 30px;
+
+}
+
+.startMarkerSelected{
+    font-weight: bold;
+    display: none;
+}
+
+.endMarkerSelected{
+    font-weight: bold;
+    display: none;
+}
+
+.pointMarkerSelected{
+    font-weight: bold;
+    display: none;
+}
+
+.routeColorBox{
+    width: 100%;
+    height: 15px;;
+    background: black;
+}
+
+.routeResult{
+    padding: 10px;
+    margin: 10px;
+    border-width: 1px;
+    border-color: black;
+    border-style: solid;
+    cursor: pointer;
+}
+
+.routeResult2{
+    padding: 10px;
+    margin: 20px;
+    border-width: 1px;
+    border-color: black;
+    border-style: solid;
+    width: 100px;
+    text-align: center;
+    background-color: white;
+    cursor: pointer;
+}
+
+
+.loader {
+    border: 8px solid #f3f3f3; /* Light grey */
+    border-top: 8px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    animation: spin 2s linear infinite;
+    display: none;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+      <title>GIS-VU</title>
+      <script src='https://api.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.js'></script>
+      <link href='https://api.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.css' rel='stylesheet' />
+      <link href="site.css" rel="stylesheet"/>       
+   </head>
+    
+   <body>
+      <div id='map'></div>
+
+      <div class='infoBox'>
+          <div class="settingsBtn" onclick="invertSettings()">Nustatymai</div>
+          <div class="startMarker" style="margin: 10px"></div>
+          <p class="startMarkerNotSelected">Nepasirinktas</p>
+          <p class="startMarkerSelected">Pasirinktas</p>
+       
+          <div class="pointMarker" style="margin: 10px"></div>
+          <p class="pointMarkerNotSelected">Nepasirinktas</p>
+          <p class="pointMarkerSelected">Pasirinktas</p>
+          
+          <div class="endMarker" style="margin: 10px"></div>
+          <p class="endMarkerNotSelected">Nepasirinktas</p>
+          <p class="endMarkerSelected">Pasirinktas</p>
+                    
+          <input class="searchBtn" type='button' value="Ieškoti maršruto" disabled onclick="routeSearch()">
+          <div class="loader"></div>
+          <div id="routeResultBox">
+          </div>
+          <div class="downloadBtn" onclick="invertDownloadBox()">Atsiųsti</div>
+      </div>
+
+  
+       <div id="settings">
+           <div class="close" onclick="invertSettings()">X</div>
+           <h3>Kelio tipo koeficientai</h3>
+           <div class="option">
+               <div class="routeTypeName">Takelis</div>
+               <div class="routeTypeIcon path">.</div>
+               <input id='pathValue' type="number" step="0.01" class="optionValue" value='1' min="0">
+           </div>
+           <br>
+           <div class="option">
+               <div class="routeTypeName">Takas</div>
+               <div class="routeTypeIcon walkingPath">.</div>
+               <input id='walkingPathValue' type="number" step="0.01" class="optionValue" value='1' min="0">
+           </div>
+           <br>
+           <div class="option">
+               <div class="routeTypeName">Kelias</div>
+               <div class="routeTypeIcon route">.</div>
+               <input id='routeValue' type="number" step="0.01" class="optionValue" value='1' min="0">
+           </div>
+           <br>
+           <div class="option">
+               <div class="routeTypeName">Rimtas kelias</div>
+               <div class="routeTypeIcon seriousRoute">.</div>
+               <input id='seriousRouteValue' type="number" step="0.01" class="optionValue" value='1' min="0">
+           </div>
+           <h3>Kelių persidengimo koeficientas</h3>
+                          <input id='routeOverlapValue' type="number" step="0.01" class="optionValue" value='1' min="0">
+            <h3>Miškų koeficientas</h3>
+                          <input id='forrestValue' type="number" step="0.01" class="optionValue" value='1' min="0">
+            <h3>Vandens telkinių koeficientas</h3>
+                 <div class="option">
+           <input id='waterDistanceValue' type="number" step="1" class="optionValue" value='50' min="0">
+           
+            <p>Atstumas metrais</p>   
+           </div>
+           <div class="option">
+              <input id='waterValue' type="number" step="0.01" class="optionValue" value='1' min="0">
+           <p>Koeficientas</p>      
+           </div>
+
+
+
+       </div>
+       
+       <div id="downloadBox">
+           <div class="close" onclick="invertDownloadBox()">X</div>
+           <h3>Atsisiuntimų langas</h3>
+           <div id="routeResultBox2">
+          </div>
+       </div>
+       
+      <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+      <script src="site.js"></script>
+   </body>
+    
+</html>
