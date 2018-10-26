@@ -1,16 +1,39 @@
 routesCount = 0;
+routes = [];
 
-var route = {
-        type: "simple-line",
-        color: "red",
-        width: 3,
-        style: "solid"
-    };
+
+var colors = ['#e6194b', '#ffe119', '#4363d8', '#f58231', '#911eb4', '#46f0f0', '#f032e6', '#bcf60c', '#fabebe'];
+    
+
 
 var routesRenderer = {
-        type: "simple",
-        symbol: route
+        type: "unique-value",
+        field: "id",
+//        defaultSymbol: routeStyles[routeStyles.length - 1],
+        uniqueValueInfos: [
+//            {
+//                value: "footway",
+//                symbol: footway
+//            }
+        ]
+    };
+
+for(var i = 0; i < colors.length; i++){
+    
+    var style = {
+        type: "simple-line",
+        color: colors[i],
+        width: 5,
+        style: "solid"
+    };
+    
+    
+    routesRenderer.uniqueValueInfos.push({
+        value: i,
+        symbol: style
+    });
 }
+
 
 function routeSearch(){
     
@@ -108,20 +131,17 @@ function routeSearch(){
     .catch(function(e){
         alert(e);
         hideDownloadBtn();
-//        cleanRoutes();
+        cleanRoutes();
         $(btn).show();
         $(loader).hide();
         routesCount=0;
-        oldData = null;
     });
 }
 
 
 function processResponse(data){
-    
-    oldData = data;
-    
-//    cleanRoutes();
+        
+    cleanRoutes();
     routesCount = data.routes.length;
     
     var i = 0;
@@ -143,20 +163,18 @@ function processResponse(data){
 }
 
 
-//function cleanRoutes(){
-//    for(var i =0; i < routesCount; i++)
-//        if (map.getSource('route' + i)) {
-//            map.removeLayer('route' + i)
-//            map.removeSource('route' + i)
-//        }
-//    
-//    $('#routeResultBox').empty();
-//    $('#routeResultBox2').empty();
-//}
+function cleanRoutes(){
+    for(var i =0; i < routes.length; i++)
+        map.remove(routes[i]);
+    
+    routes = [];
+    
+    $('#routeResultBox').empty();
+    $('#routeResultBox2').empty();
+}
 
 function addRoute (route, i) {
-  var colors = ['#e6194b', '#ffe119', '#4363d8', '#f58231', '#911eb4', '#46f0f0', '#f032e6', '#bcf60c', '#fabebe'];
-    
+  
     
     
     
@@ -198,6 +216,8 @@ function addRoute (route, i) {
           renderer: routesRenderer, // set the visualization on the layer
         });
 
+        routes.push(layer);
+        
     map.add(layer);
     });
     
