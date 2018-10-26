@@ -21,15 +21,15 @@
       <div class='infoBox'>
          <div class="settingsBtn" onclick="invertSettings()">Nustatymai</div>
          <div class="startMarker" style="margin: 10px"></div>
-         <p class="startMarkerNotSelected">Nepasirinktas</p>
-         <p class="startMarkerSelected">Pasirinktas</p>
+         <p id="startMarkerNotSelected">Nepasirinktas</p>
+         <p id="startMarkerSelected" class="hide"><b>Pasirinktas</b></p>
          <div class="pointMarker" style="margin: 10px"></div>
-         <p class="pointMarkerNotSelected">Nepasirinktas</p>
-         <p class="pointMarkerSelected">Pasirinktas</p>
+         <p id="pointMarkerNotSelected">Nepasirinktas</p>
+         <p id="pointMarkerSelected" class="hide"><b>Pasirinktas</b></p>
          <div class="endMarker" style="margin: 10px"></div>
-         <p class="endMarkerNotSelected">Nepasirinktas</p>
-         <p class="endMarkerSelected">Pasirinktas</p>
-         <input class="searchBtn" type='button' value="Ieškoti maršruto" disabled onclick="routeSearch()">
+         <p id="endMarkerNotSelected">Nepasirinktas</p>
+         <p id="endMarkerSelected" class="hide"><b>Pasirinktas</b></p>
+         <input id="searchBtn" type='button' value="Ieškoti maršruto" disabled onclick="routeSearch()">
          <div class="loader"></div>
          <div id="routeResultBox">
          </div>
@@ -81,7 +81,8 @@
          <div id="routeResultBox2">
          </div>
       </div>
-<!--      <script src="https://code.jquery.com/jquery-3.3.1.min.js" ></script>-->
+         <script>var exports = {};</script>
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js" ></script>
              <script src="https://js.arcgis.com/4.9/"></script>
 
       <script src="site.js"></script>

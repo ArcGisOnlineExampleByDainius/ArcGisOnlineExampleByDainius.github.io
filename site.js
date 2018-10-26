@@ -1,4 +1,4 @@
-var dev = true;
+var dev = false;
 
 var url = '';
 
@@ -30,18 +30,29 @@ if(dev){
 
 
 require(["dojo/request/script"], function(script){
-  script.get("initializeMap.js");});
+    script.get("geoJson.js");
+    script.get("settingsFunctions.js"); 
+  script.get("initializeMap.js");
+    script.get("mapActions.js");
+    script.get("routeSearchAction.js");
+     
+});
 
-require(["dojo/request/script"], function(script){
-  script.get("settingsFunctions.js");});
 
-require(["dojo/request/script"], function(script){
-  script.get("mapActions.js");});
-
-
-require(["dojo/request/script"], function(script){
-  script.get("routeSearchAction.js");});
-
+//require(["dojo/request/script"], function(script){
+//});
 //
+//require(["dojo/request/script"], function(script){
+//  });
+//
+//
+//require(["dojo/request/script"], function(script){
+//  });
+
+//require(["dojo/request/script"], function(script){
+//  script.get("geoJson.js");});
+
+
+
 //require(["dojo/request/script"], function(script){
 //  script.get("tokml.js");});

@@ -1,21 +1,37 @@
 routesCount = 0;
 
+var route = {
+        type: "simple-line",
+        color: "red",
+        width: 3,
+        style: "solid"
+    };
+
+var routesRenderer = {
+        type: "simple",
+        symbol: route
+}
+
 function routeSearch(){
     
-    var btn = $('.searchBtn')[0];
+    var btn = $('#searchBtn')[0];
     var loader = $('.loader')[0];
     
     $(btn).toggle();
     $(loader).toggle();
     
-    var startMarker = findMarkerWithClass('startMarker');
-    var endMarker = findMarkerWithClass('endMarker');
-    var pointMarker = findMarkerWithClass('pointMarker');
+        
+    var startMarker = startPoint;
+    var endMarker = endPoint;
+    var pointMarker = pointPoint;
     
     var pointMarkerCoordinates = null;
     
     if(pointMarker!=null)
-        pointMarkerCoordinates = pointMarker.getLngLat();
+        pointMarkerCoordinates =   {
+                lng:pointMarker.longitude,
+                lat:pointMarker.latitude
+            };
     
     var pathValue = $('#pathValue')[0].value;
     var walkingPathValue = $('#walkingPathValue')[0].value;
@@ -31,8 +47,16 @@ function routeSearch(){
     
     var request = 
         {
-            'start':startMarker.getLngLat(),
-            'end':endMarker.getLngLat(),
+            'start': 
+            {
+                lng:startPoint.longitude,
+                lat:startPoint.latitude
+            },
+            'end':
+            {
+                lng:endPoint.longitude,
+                lat:endPoint.latitude
+            },
             'point':pointMarkerCoordinates,
             'searchOptions':{
                 'trackOverlapImportance':routeOverlapValue,
@@ -81,10 +105,10 @@ function routeSearch(){
         return response.json()
     })
     .then(data => processResponse(data))
-    .catch(function(){
-        alert("Error");
+    .catch(function(e){
+        alert(e);
         hideDownloadBtn();
-        cleanRoutes();
+//        cleanRoutes();
         $(btn).show();
         $(loader).hide();
         routesCount=0;
@@ -97,7 +121,7 @@ function processResponse(data){
     
     oldData = data;
     
-    cleanRoutes();
+//    cleanRoutes();
     routesCount = data.routes.length;
     
     var i = 0;
@@ -107,55 +131,101 @@ function processResponse(data){
         });
    
     
-    if(routesCount == 0){
-        hideDownloadBtn();
-        alert('No route found');
-    }
-        
-    else{
-        showDownloadBtn();
-        highLight('route' + (routesCount - 1));
-    }
+//    if(routesCount == 0){
+//        hideDownloadBtn();
+//        alert('No route found');
+//    }
+//        
+//    else{
+//        showDownloadBtn();
+//        highLight('route' + (routesCount - 1));
+//    }
 }
 
 
-function cleanRoutes(){
-    for(var i =0; i < routesCount; i++)
-        if (map.getSource('route' + i)) {
-            map.removeLayer('route' + i)
-            map.removeSource('route' + i)
-        }
-    
-    $('#routeResultBox').empty();
-    $('#routeResultBox2').empty();
-}
+//function cleanRoutes(){
+//    for(var i =0; i < routesCount; i++)
+//        if (map.getSource('route' + i)) {
+//            map.removeLayer('route' + i)
+//            map.removeSource('route' + i)
+//        }
+//    
+//    $('#routeResultBox').empty();
+//    $('#routeResultBox2').empty();
+//}
 
 function addRoute (route, i) {
   var colors = ['#e6194b', '#ffe119', '#4363d8', '#f58231', '#911eb4', '#46f0f0', '#f032e6', '#bcf60c', '#fabebe'];
     
-    map.addLayer({
-      "id": "route" + i,
-      "type": "line",
-      "source": {
-        "type": "geojson",
-        "data": {
-          "type": "Feature",
-          "properties": {},
-          "geometry": route.data
-        }
-      },
-      "layout": {
-        "line-join": "round",
-        "line-cap": "round"
-      },
-      "paint": {
-        "line-color": colors[i],
-        "line-width": 8,
-        "line-opacity": 1
-      }
+    
+    
+    
+    
+    require(["esri/symbols/SimpleMarkerSymbol", "esri/Graphic", "esri/layers/FeatureLayer",], function(SimpleMarkerSymbol, Graphic, FeatureLayer) {
+
+        var output = geojsonToArcGIS(route.data);
+        
+//        var symbol = {
+//            type: "picture-marker",
+//            url: "img/point_marker.png",
+//            width: "88px",
+//            height: "88px",
+//        };
+//
+//
+//        pointGraphic = new Graphic(lastPoint, symbol);
+//        pointPoint = lastPoint;
+//        gl.add(pointGraphic);
+        
+        var new_graphic = Graphic.fromJSON(
+            {
+            geometry:output,
+            attributes:{
+                id: i
+            }
+        });
+
+        
+        var layer = new FeatureLayer({
+          source: [new_graphic], // autocast as an array of esri/Graphic
+          // create an instance of esri/layers/support/Field for each field object
+          fields: [{
+                name: "id",
+            alias: "id",
+                type: "oid"
+            }], // This is required when creating a layer from Graphics
+          objectIdField: "id", // This must be defined when creating a layer from Graphics
+          renderer: routesRenderer, // set the visualization on the layer
+        });
+
+    map.add(layer);
     });
-  
-    addRouteInfo(colors[i], i, route.info.length);
+    
+    
+    
+//    map.addLayer({
+//      "id": "route" + i,
+//      "type": "line",
+//      "source": {
+//        "type": "geojson",
+//        "data": {
+//          "type": "Feature",
+//          "properties": {},
+//          "geometry": route.data
+//        }
+//      },
+//      "layout": {
+//        "line-join": "round",
+//        "line-cap": "round"
+//      },
+//      "paint": {
+//        "line-color": colors[i],
+//        "line-width": 8,
+//        "line-opacity": 1
+//      }
+//    });
+//  
+//    addRouteInfo(colors[i], i, route.info.length);
 }
 
 function addRouteInfo(color, index, info){

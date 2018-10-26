@@ -7,7 +7,7 @@ require([
     "dojo/domReady!"
 ], function(Map, FeatureLayer, TileLayer, MapView, GraphicsLayer) {
 
-    var map = new Map({
+    map = new Map({
         basemap: "gray",
         slider: false
     });
