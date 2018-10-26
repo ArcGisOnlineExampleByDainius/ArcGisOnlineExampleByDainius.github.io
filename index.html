@@ -4,194 +4,87 @@
       <meta charset="utf-8">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
       <title>GIS-VU</title>
-      
       <link rel="stylesheet" href="https://js.arcgis.com/4.9/esri/css/main.css">
-       <script src="https://js.arcgis.com/4.9/"></script>
-
-       <style>
-       
-           .esri-ui-top-left{
-               display: none;
-           }
-       </style>
-       
-    <script>
-        require([
-            "esri/Map",
-            "esri/layers/FeatureLayer",
-            "esri/layers/TileLayer",
-            "esri/views/MapView",
-            "dojo/domReady!"
-        ], function(Map, FeatureLayer, TileLayer, MapView) {
-
-            var map = new Map({
-                basemap: "gray",
-                slider: false
-            });
-
-            // Construct feature layer from service URL
-            var parkLayer = new TileLayer({
-                url: "https://services9.arcgis.com/Ft7DENNtF3ueB5vS/arcgis/rest/services/verkiuParkas2/MapServer" // REQUIRED: Paste your feature service URL here
-            });
-            
-            
-            var fwySym = {
-              type: "simple-line",  // autocasts as new SimpleLineSymbol()
-              color: "#FFAA00",
-              width: 5,
-              style: "solid"
-            };
-
-            // Symbol for U.S. Highways
-            var hwySym = {
-              type: "simple-line",  // autocasts as new SimpleLineSymbol()
-              color: "#DF73FF",
-              width: 7,
-              style: "solid"
-            };
-
-            // Symbol for other major highways
-            var otherSym = {
-              type: "simple-line",  // autocasts as new SimpleLineSymbol()
-              color: "#EBEBEB",
-              width: 1,
-              style: "short-dot"
-            };
-            
-            var hwyRenderer = {
-              type: "unique-value",  // autocasts as new UniqueValueRenderer()
-              field: "fclass",
-              defaultSymbol: otherSym,  // used to visualize all features not matching specified types
-              defaultLabel: "Other major roads",  //  used in the legend for all other types not specified
-                uniqueValueInfos: [{
-                value: "primary", // code for interstates/freeways
-                symbol: fwySym,
-                label: "Interstate"  // used in the legend to describe features with this symbol
-              }, {
-                value: "footway", // code for U.S. highways
-                symbol: hwySym,
-                label: "US Highway"  // used in the legend to describe features with this symbol
-              }]
-            };
-            
-            var roadsLayer = new FeatureLayer({
-                url: "https://services9.arcgis.com/Ft7DENNtF3ueB5vS/arcgis/rest/services/keliai_LT/FeatureServer", // REQUIRED: Paste your feature service URL here
-                renderer : hwyRenderer
-            }); 
-            
-            var waterLayer = new TileLayer({
-                url: "https://services9.arcgis.com/Ft7DENNtF3ueB5vS/arcgis/rest/services/vandenys/MapServer" // REQUIRED: Paste your feature service URL here
-            });  
-            
-            var forrestLayer = new TileLayer({
-                url: "https://services9.arcgis.com/Ft7DENNtF3ueB5vS/arcgis/rest/services/miskai/MapServer" // REQUIRED: Paste your feature service URL here
-            });
-
-
-            map.add(parkLayer);
-            map.add(roadsLayer);
-            map.add(waterLayer);
-            map.add(forrestLayer);
-
-            var mapView = new MapView({
-                container: "map",
-                map: map,
-                center: [25.2797, 54.6872],
-                zoom: 13
-            });
-
-
-        });
-    </script>
-       
-       
-      <link href="site.css" rel="stylesheet"/>       
+      <link href="site.css" rel="stylesheet"/>
    </head>
-    
    <body>
       <div id='map'></div>
-
-
+       
+       
+       <div id='contextMenu' class='hide' onmouseleave='leaveContext()'>
+           <input type="button" value="Maršruto pradžia" onclick="setRouteStart()" class="startBtn">
+           <input type="button" value="Aplankytas taškas" onclick="setRoutePoint()" class="pointBtn">
+           <input type="button" value="Maršruto pabaiga" onclick="setRouteEnd()" class="endBtn">
+       </div>
+       
+       
       <div class='infoBox'>
-          <div class="settingsBtn" onclick="invertSettings()">Nustatymai</div>
-          <div class="startMarker" style="margin: 10px"></div>
-          <p class="startMarkerNotSelected">Nepasirinktas</p>
-          <p class="startMarkerSelected">Pasirinktas</p>
-       
-          <div class="pointMarker" style="margin: 10px"></div>
-          <p class="pointMarkerNotSelected">Nepasirinktas</p>
-          <p class="pointMarkerSelected">Pasirinktas</p>
-          
-          <div class="endMarker" style="margin: 10px"></div>
-          <p class="endMarkerNotSelected">Nepasirinktas</p>
-          <p class="endMarkerSelected">Pasirinktas</p>
-                    
-          <input class="searchBtn" type='button' value="Ieškoti maršruto" disabled onclick="routeSearch()">
-          <div class="loader"></div>
-          <div id="routeResultBox">
-          </div>
-          <div class="downloadBtn" onclick="invertDownloadBox()">Atsiųsti</div>
+         <div class="settingsBtn" onclick="invertSettings()">Nustatymai</div>
+         <div class="startMarker" style="margin: 10px"></div>
+         <p class="startMarkerNotSelected">Nepasirinktas</p>
+         <p class="startMarkerSelected">Pasirinktas</p>
+         <div class="pointMarker" style="margin: 10px"></div>
+         <p class="pointMarkerNotSelected">Nepasirinktas</p>
+         <p class="pointMarkerSelected">Pasirinktas</p>
+         <div class="endMarker" style="margin: 10px"></div>
+         <p class="endMarkerNotSelected">Nepasirinktas</p>
+         <p class="endMarkerSelected">Pasirinktas</p>
+         <input class="searchBtn" type='button' value="Ieškoti maršruto" disabled onclick="routeSearch()">
+         <div class="loader"></div>
+         <div id="routeResultBox">
+         </div>
+         <div class="downloadBtn" onclick="invertDownloadBox()">Atsiųsti</div>
       </div>
+      <div id="settings" class="hide">
+         <div class="close" onclick="invertSettings()">X</div>
+         <h3>Kelio tipo koeficientai</h3>
+         <div class="option">
+            <div class="routeTypeName">Takelis</div>
+            <div class="routeTypeIcon path">.</div>
+            <input id='pathValue' type="number" step="0.01" class="optionValue" value='1' min="0">
+         </div>
+         <br>
+         <div class="option">
+            <div class="routeTypeName">Takas</div>
+            <div class="routeTypeIcon walkingPath">.</div>
+            <input id='walkingPathValue' type="number" step="0.01" class="optionValue" value='1' min="0">
+         </div>
+         <br>
+         <div class="option">
+            <div class="routeTypeName">Kelias</div>
+            <div class="routeTypeIcon route">.</div>
+            <input id='routeValue' type="number" step="0.01" class="optionValue" value='1' min="0">
+         </div>
+         <br>
+         <div class="option">
+            <div class="routeTypeName">Rimtas kelias</div>
+            <div class="routeTypeIcon seriousRoute">.</div>
+            <input id='seriousRouteValue' type="number" step="0.01" class="optionValue" value='1' min="0">
+         </div>
+         <h3>Kelių persidengimo koeficientas</h3>
+         <input id='routeOverlapValue' type="number" step="0.01" class="optionValue" value='1' min="0">
+         <h3>Miškų koeficientas</h3>
+         <input id='forrestValue' type="number" step="0.01" class="optionValue" value='1' min="0">
+         <h3>Vandens telkinių koeficientas</h3>
+         <div class="option">
+            <input id='waterDistanceValue' type="number" step="1" class="optionValue" value='50' min="0">
+            <p>Atstumas metrais</p>
+         </div>
+         <div class="option">
+            <input id='waterValue' type="number" step="0.01" class="optionValue" value='1' min="0">
+            <p>Koeficientas</p>
+         </div>
+      </div>
+      <div id="downloadBox">
+         <div class="close" onclick="invertDownloadBox()">X</div>
+         <h3>Atsisiuntimų langas</h3>
+         <div id="routeResultBox2">
+         </div>
+      </div>
+<!--      <script src="https://code.jquery.com/jquery-3.3.1.min.js" ></script>-->
+             <script src="https://js.arcgis.com/4.9/"></script>
 
-  
-       <div id="settings">
-           <div class="close" onclick="invertSettings()">X</div>
-           <h3>Kelio tipo koeficientai</h3>
-           <div class="option">
-               <div class="routeTypeName">Takelis</div>
-               <div class="routeTypeIcon path">.</div>
-               <input id='pathValue' type="number" step="0.01" class="optionValue" value='1' min="0">
-           </div>
-           <br>
-           <div class="option">
-               <div class="routeTypeName">Takas</div>
-               <div class="routeTypeIcon walkingPath">.</div>
-               <input id='walkingPathValue' type="number" step="0.01" class="optionValue" value='1' min="0">
-           </div>
-           <br>
-           <div class="option">
-               <div class="routeTypeName">Kelias</div>
-               <div class="routeTypeIcon route">.</div>
-               <input id='routeValue' type="number" step="0.01" class="optionValue" value='1' min="0">
-           </div>
-           <br>
-           <div class="option">
-               <div class="routeTypeName">Rimtas kelias</div>
-               <div class="routeTypeIcon seriousRoute">.</div>
-               <input id='seriousRouteValue' type="number" step="0.01" class="optionValue" value='1' min="0">
-           </div>
-           <h3>Kelių persidengimo koeficientas</h3>
-                          <input id='routeOverlapValue' type="number" step="0.01" class="optionValue" value='1' min="0">
-            <h3>Miškų koeficientas</h3>
-                          <input id='forrestValue' type="number" step="0.01" class="optionValue" value='1' min="0">
-            <h3>Vandens telkinių koeficientas</h3>
-                 <div class="option">
-           <input id='waterDistanceValue' type="number" step="1" class="optionValue" value='50' min="0">
-           
-            <p>Atstumas metrais</p>   
-           </div>
-           <div class="option">
-              <input id='waterValue' type="number" step="0.01" class="optionValue" value='1' min="0">
-           <p>Koeficientas</p>      
-           </div>
-
-
-
-       </div>
-       
-       <div id="downloadBox">
-           <div class="close" onclick="invertDownloadBox()">X</div>
-           <h3>Atsisiuntimų langas</h3>
-           <div id="routeResultBox2">
-          </div>
-       </div>
-       
-      <script
-  src="https://code.jquery.com/jquery-3.3.1.min.js"
-  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-  crossorigin="anonymous"></script>
       <script src="site.js"></script>
-
+       
    </body>
-    
 </html>

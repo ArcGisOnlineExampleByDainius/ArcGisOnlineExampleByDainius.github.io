@@ -1,5 +1,9 @@
 function invertSettings(){
-    $('#settings').toggle();
+    require(["dojo/dom-class"], function(domClass){
+        domClass.toggle("settings", "hide");
+});
+    
+    
 }
 
 function invertDownloadBox(){

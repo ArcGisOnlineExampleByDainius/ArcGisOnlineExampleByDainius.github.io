@@ -1,29 +1,78 @@
 var markers = [];
 
-function contextClicked(e) {
-    
-    cleanTempMarkers();
-    
-    var el = document.createElement('div');
-    el.className = 'tempMarker';
+function leaveContext(){
+    require(["dojo/dom-class"], function(domClass){
+        domClass.toggle("contextMenu", "hide");
+    });
+}
 
-    var marker = new mapboxgl.Marker(el)
-        .setLngLat(e.lngLat)
-        .addTo(map);
+function contextClicked(event) {
     
-    markers.push(marker);
+    lastPoint = event.mapPoint;
+    
+    event.stopPropagation();
+
+    require(["dojo/dom-class"], function(domClass){
+        domClass.toggle("contextMenu", "hide");
+    });
+    
+    var menu=document.getElementById("contextMenu");
+
+    menu.setAttribute("style", "margin-left:" + event.screenPoint.x + 'px;margin-top:'+ event.screenPoint.y + 'px;');
+    
+    var lat = Math.round(event.mapPoint.latitude * 1000) / 1000;
+    var lon = Math.round(event.mapPoint.longitude * 1000) / 1000;
+    
+
+    
+//    alert('bbb');
+//    cleanTempMarkers();
+//    
+//    var el = document.createElement('div');
+//    el.className = 'tempMarker';
+//
+//    var marker = new mapboxgl.Marker(el)
+//        .setLngLat(e.lngLat)
+//        .addTo(map);
+//    
+//    markers.push(marker);
+//    
+//    
+    
+//     require(["esri/symbols/SimpleMarkerSymbol", "esri/Graphic" ], function(SimpleMarkerSymbol,Graphic ) {
+//         
+//          var p = event.mapPoint;
+//
+//         
+//         var symbol = {
+//              type: "simple-marker",  // autocasts as new SimpleMarkerSymbol()
+//              style: "square",
+//              color: "blue",
+//              size: "8px",  // pixels
+//              outline: {  // autocasts as new SimpleLineSymbol()
+//                color: [ 255, 255, 0 ],
+//                width: 3  // points
+//              }
+//            };
+//         
+//          var g = new Graphic(p, symbol);
+//          gl.add(g);
+//         
+//     });
+//    
     
     
-    var contextMenu = $.parseHTML("<div class='contextMenu'><input type=\"button\" value=\"Mar\u0161ruto prad\u017Eia\" onclick=\"setRouteStart()\" class=\"startBtn\"><input type=\"button\" value=\"Aplankytas taškas\" onclick=\"setRoutePoint()\" class=\"pointBtn\"><input type=\"button\" value=\"Mar\u0161ruto pabaiga\" onclick=\"setRouteEnd()\" class=\"endBtn\"><\/div>");
     
-    
-    marker = new mapboxgl.Marker(contextMenu[0])
-        .setLngLat(e.lngLat)
-        .addTo(map);
-    
-    markers.push(marker);
-    
-    e.preventDefault();
+//    var contextMenu = $.parseHTML("<div class='contextMenu'><input type=\"button\" value=\"Mar\u0161ruto prad\u017Eia\" onclick=\"setRouteStart()\" class=\"startBtn\"><input type=\"button\" value=\"Aplankytas taškas\" onclick=\"setRoutePoint()\" class=\"pointBtn\"><input type=\"button\" value=\"Mar\u0161ruto pabaiga\" onclick=\"setRouteEnd()\" class=\"endBtn\"><\/div>");
+////    
+//    
+//    marker = new mapboxgl.Marker(contextMenu[0])
+//        .setLngLat(e.lngLat)
+//        .addTo(map);
+//    
+//    markers.push(marker);
+//    
+//    e.preventDefault();
 };
 
 function cleanTempMarkers(){

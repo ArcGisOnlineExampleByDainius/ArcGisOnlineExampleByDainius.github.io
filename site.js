@@ -8,22 +8,40 @@ if(dev){
     url = 'https://gis-vu-api.azurewebsites.net/api/route';
 }
 
-function loadScript (url) {
-    return new Promise((resolve,reject)=>{
-        $.ajax({
-            url: url,
-            dataType: 'script',
-            async: true
-        }).done((response)=>{
-                resolve(response);
-            }).fail((error)=>{
-                reject(error);
-            });
-    });
-}
+//function loadScript (url) {
+//    return new Promise((resolve,reject)=>{
+//        $.ajax({
+//            url: url,
+//            dataType: 'script',
+//            async: true
+//        }).done((response)=>{
+//                resolve(response);
+//            }).fail((error)=>{
+//                reject(error);
+//            });
+//    });
+//}
 
-loadScript('.\\mapActions.js')
-    .then(loadScript(".\\initializeMap.js"))
-    .then(loadScript(".\\routeSearchAction.js"))
-    .then(loadScript(".\\settingsFunctions.js"))
-    .then(loadScript(".\\tokml.js"));
+//loadScript('.\\mapActions.js')
+//    .then(loadScript(".\\initializeMap.js"))
+//    .then(loadScript(".\\routeSearchAction.js"))
+//    .then(loadScript(".\\settingsFunctions.js"))
+//    .then(loadScript(".\\tokml.js"));
+
+
+require(["dojo/request/script"], function(script){
+  script.get("initializeMap.js");});
+
+require(["dojo/request/script"], function(script){
+  script.get("settingsFunctions.js");});
+
+require(["dojo/request/script"], function(script){
+  script.get("mapActions.js");});
+
+
+require(["dojo/request/script"], function(script){
+  script.get("routeSearchAction.js");});
+
+//
+//require(["dojo/request/script"], function(script){
+//  script.get("tokml.js");});
