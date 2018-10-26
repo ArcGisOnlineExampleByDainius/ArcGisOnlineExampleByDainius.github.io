@@ -1,9 +1,11 @@
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.tokml = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var strxml = require('strxml'),
-    tag = strxml.tag,
-    encode = strxml.encode;
+//function a(){
+//
+//(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.tokml = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+//var strxml = require('strxml'),
+//    tag = strxml.tag,
+//    encode = strxml.encode;
 
-module.exports = function tokml(geojson, options) {
+function tokml(geojson, options) {
 
     options = options || {
         documentName: undefined,
@@ -293,11 +295,11 @@ function pairs(_) {
     for (var i in _) o.push([i, _[i]]);
     return o;
 }
-},{"strxml":2}],2:[function(require,module,exports){
-module.exports.attr = attr;
-module.exports.tagClose = tagClose;
-module.exports.tag = tag;
-module.exports.encode = encode;
+//},{"strxml":2}],2:[function(require,module,exports){
+//module.exports.attr = attr;
+//module.exports.tagClose = tagClose;
+//module.exports.tag = tag;
+//module.exports.encode = encode;
 
 /**
  * @param {array} _ an array of attributes
@@ -339,8 +341,9 @@ function encode(_) {
         .replace(/"/g, '&quot;');
 }
 
-},{}]},{},[1])(1)
-});
+//},{}]},{},[1])(1)
+//});
+
 
 
 

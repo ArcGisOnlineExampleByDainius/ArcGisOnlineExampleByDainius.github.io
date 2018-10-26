@@ -135,12 +135,15 @@ function routeSearch(){
         $(btn).show();
         $(loader).hide();
         routesCount=0;
+        oldData = null;
     });
 }
 
 
 function processResponse(data){
-        
+    
+    oldData = data;
+    
     cleanRoutes();
     routesCount = data.routes.length;
     
@@ -151,15 +154,15 @@ function processResponse(data){
         });
    
     
-//    if(routesCount == 0){
-//        hideDownloadBtn();
-//        alert('No route found');
-//    }
-//        
-//    else{
-//        showDownloadBtn();
-//        highLight('route' + (routesCount - 1));
-//    }
+    if(routesCount == 0){
+        hideDownloadBtn();
+        alert('No route found');
+    }
+        
+    else{
+        showDownloadBtn();
+        highLight(routesCount - 1);
+    }
 }
 
 
@@ -245,14 +248,14 @@ function addRoute (route, i) {
 //      }
 //    });
 //  
-//    addRouteInfo(colors[i], i, route.info.length);
+    addRouteInfo(colors[i], i, route.info.length);
 }
 
 function addRouteInfo(color, index, info){
     
     var routeResult = document.createElement('div');
     routeResult.className = 'routeResult';
-    $(routeResult).attr("id","route" + index);
+    $(routeResult).attr("id",index);
     
     
     var routeColorBox = document.createElement('div');
@@ -290,14 +293,18 @@ function addRouteInfo(color, index, info){
     
     $('#routeResultBox2').append(routeResult2);
     
-    $(routeResult).click(function(){ highLight('route' + index);});
+    $(routeResult).click(function(){ highLight(index);});
 }
 
-function highLight(layerId){
-    map.moveLayer(layerId);
+function highLight(layerIndex){
+
+    var layer = routes[layerIndex];
+    
+    map.remove(layer);
+    map.add(layer);
     
     $('.routeResult').css("background", 'white');
-    $('#'+layerId).css("background", '#C0C0C0');
+    $('#'+layerIndex).css("background", '#C0C0C0');
     
     
 //    map.setPaintProperty(layerId, "line-width", 16);

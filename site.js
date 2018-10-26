@@ -35,7 +35,7 @@ require(["dojo/request/script"], function(script){
   script.get("initializeMap.js");
     script.get("mapActions.js");
     script.get("routeSearchAction.js");
-     
+     script.get("tokml.js");
 });
 
 
