@@ -163,6 +163,9 @@ function processResponse(data){
         showDownloadBtn();
         highLight(routesCount - 1);
     }
+    
+    map.remove(gl);
+    map.add(gl);
 }
 
 
@@ -302,6 +305,9 @@ function highLight(layerIndex){
     
     map.remove(layer);
     map.add(layer);
+    
+    map.remove(gl);
+    map.add(gl);
     
     $('.routeResult').css("background", 'white');
     $('#'+layerIndex).css("background", '#C0C0C0');
